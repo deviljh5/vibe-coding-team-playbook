@@ -9,6 +9,7 @@
 3. 按 [docs/onboarding/day-one-checklist.md](./docs/onboarding/day-one-checklist.md) 完成新成员上手
 4. 使用 [templates/prompts/](./templates/prompts/) 中的标准 Prompt 模板发起任务
 5. 按 [docs/sop/task-lifecycle.md](./docs/sop/task-lifecycle.md) 执行标准作业流
+6. 启用 CI：运行 `./scripts/install-github-workflows.sh`（需先 `gh auth refresh -h github.com -s workflow` 并在浏览器授权）
 
 ## 目录结构
 
