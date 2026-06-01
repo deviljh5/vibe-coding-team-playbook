@@ -2,7 +2,12 @@
 # 完整本地验证 — lint + 结构 + 文档
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+if [[ "$(basename "$SCRIPT_DIR")" == "vibe" ]]; then
+  ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+else
+  ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+fi
 
 echo "========================================"
 echo "  Vibe Coding 本地验证"
@@ -23,8 +28,8 @@ run_check() {
   fi
 }
 
-run_check "结构约束" "$ROOT/scripts/check-structure.sh"
-run_check "文档新鲜度" "$ROOT/scripts/check-doc-freshness.sh"
+run_check "结构约束" "$SCRIPT_DIR/check-structure.sh"
+run_check "文档新鲜度" "$SCRIPT_DIR/check-doc-freshness.sh"
 
 echo "========================================"
 if [[ "$FAILED" -gt 0 ]]; then

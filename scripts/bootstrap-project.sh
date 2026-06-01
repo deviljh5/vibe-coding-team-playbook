@@ -84,9 +84,16 @@ copy_dir "$PLAYBOOK/.cursor/rules" "$TARGET/.cursor/rules"
 copy_dir "$PLAYBOOK/docs" "$TARGET/docs"
 copy_dir "$PLAYBOOK/templates" "$TARGET/templates"
 
-# 3. 脚本
-copy_dir "$PLAYBOOK/scripts" "$TARGET/scripts"
-chmod +x "$TARGET"/scripts/*.sh 2>/dev/null || true
+# 3. 脚本（若已有 scripts/ 则装到 scripts/vibe/，避免覆盖项目脚本）
+SCRIPTS_DEST="$TARGET/scripts"
+if [[ -d "$TARGET/scripts" ]] && [[ -n "$(find "$TARGET/scripts" -maxdepth 1 -type f 2>/dev/null | head -1)" ]]; then
+  SCRIPTS_DEST="$TARGET/scripts/vibe"
+  echo "ℹ️  检测到已有 scripts/，playbook 脚本安装到 scripts/vibe/"
+fi
+copy_dir "$PLAYBOOK/scripts" "$SCRIPTS_DEST"
+chmod +x "$SCRIPTS_DEST"/*.sh 2>/dev/null || true
+VALIDATE_CMD="./scripts/validate.sh"
+[[ "$SCRIPTS_DEST" == *"/vibe" ]] && VALIDATE_CMD="./scripts/vibe/validate.sh"
 
 # 4. AGENTS.md
 if [[ -f "$TARGET/AGENTS.md" ]] && [[ "$FORCE" != true ]]; then
@@ -124,10 +131,10 @@ if [[ "$WITH_CI" == true ]]; then
 fi
 
 # 8. 本地验证
-if [[ -x "$TARGET/scripts/validate.sh" ]]; then
+if [[ -x "$TARGET/$VALIDATE_CMD" ]] || [[ -x "$TARGET/scripts/validate.sh" ]] || [[ -x "$TARGET/scripts/vibe/validate.sh" ]]; then
   echo ""
   echo "--- 运行本地验证 ---"
-  (cd "$TARGET" && ./scripts/validate.sh) || echo "⚠️  验证有警告，可稍后修复"
+  (cd "$TARGET" && bash "${VALIDATE_CMD#./}") || echo "⚠️  验证有警告，可稍后修复"
 fi
 
 # 9. 可选 git 提交推送

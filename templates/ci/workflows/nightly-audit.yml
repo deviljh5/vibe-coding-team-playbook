@@ -15,7 +15,12 @@ jobs:
           fetch-depth: 0
 
       - name: Run nightly audit
-        run: ./scripts/nightly-audit.sh
+        run: |
+          if [ -f scripts/vibe/nightly-audit.sh ]; then
+            ./scripts/vibe/nightly-audit.sh
+          else
+            ./scripts/nightly-audit.sh
+          fi
 
       - name: Create issue on failure
         if: failure()

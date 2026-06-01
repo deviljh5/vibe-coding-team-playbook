@@ -14,7 +14,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Run structure check
-        run: ./scripts/check-structure.sh
+        run: |
+          if [ -f scripts/vibe/check-structure.sh ]; then
+            ./scripts/vibe/check-structure.sh
+          else
+            ./scripts/check-structure.sh
+          fi
 
   doc-freshness:
     name: Doc Freshness
@@ -25,7 +30,12 @@ jobs:
           fetch-depth: 0
 
       - name: Run doc freshness check
-        run: ./scripts/check-doc-freshness.sh
+        run: |
+          if [ -f scripts/vibe/check-doc-freshness.sh ]; then
+            ./scripts/vibe/check-doc-freshness.sh
+          else
+            ./scripts/check-doc-freshness.sh
+          fi
 
   pr-size-check:
     name: PR Size Check
