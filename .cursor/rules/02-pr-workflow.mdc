@@ -1,0 +1,40 @@
+---
+description: PR 与任务流规范
+globs:
+  - "**/*"
+---
+
+# PR 规范
+
+- 一个 PR 一个意图
+- PR 描述必须使用 `.github/pull_request_template.md` 模板
+- 必须包含测试证据（命令 + 输出摘要）
+- 必须标注影响范围和回归风险
+
+# 分支命名
+
+```
+feat/<ticket>-<short-desc>
+fix/<ticket>-<short-desc>
+docs/<short-desc>
+chore/<short-desc>
+```
+
+# Agent 自审清单
+
+合并前使用 `templates/prompts/self-review.md` 完成自审：
+
+1. 改动是否在任务范围内？
+2. 是否有遗漏的测试？
+3. 是否更新了相关文档？
+4. 是否引入安全风险？
+5. lint / 结构检查是否通过？
+
+# 关键目录人工审查
+
+以下路径改动必须指定人类 reviewer：
+
+- `.cursor/rules/`
+- `.github/workflows/`
+- `docs/security/`
+- `scripts/check-structure.sh`

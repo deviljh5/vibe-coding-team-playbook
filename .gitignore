@@ -1,0 +1,31 @@
+# 依赖
+node_modules/
+vendor/
+.venv/
+__pycache__/
+
+# 构建
+dist/
+build/
+out/
+coverage/
+
+# 环境
+.env
+.env.*
+credentials.json
+*.pem
+*.key
+
+# IDE
+.DS_Store
+.idea/
+*.swp
+
+# 临时
+tmp/
+.cache/
+*.log
+
+# 指标数据（可选：如需版本控制 dashboard-data.json 则移除此行）
+# docs/metrics/dashboard-data.json

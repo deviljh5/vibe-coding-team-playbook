@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-06-01T05:39:57Z",
+  "period": {
+    "start": "2026-05-25",
+    "end": "2026-06-01"
+  },
+  "delivery": {
+    "pr_cycle_median_hours": null,
+    "throughput_prs_per_week": 0,
+    "rework_rate_percent": null,
+    "agent_task_completion_rate_percent": null
+  },
+  "quality": {
+    "defect_escape_rate_percent": null,
+    "rollback_rate_percent": null,
+    "test_flake_rate_percent": null,
+    "ci_first_pass_rate_percent": null
+  },
+  "agent": {
+    "one_shot_pass_rate_percent": null,
+    "ai_review_hit_rate_percent": null,
+    "validate_first_pass_rate_percent": null
+  },
+  "raw": {
+    "commits_in_period": 0,
+    "merge_commits_in_period": 0,
+    "files_changed_summary": "N/A"
+  },
+  "notes": "Connect GitHub API for full metrics. See docs/metrics/framework.md"
+}

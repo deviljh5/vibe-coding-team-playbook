@@ -1,0 +1,31 @@
+# Codex 配置示例
+# 复制为 ~/.codex/config.toml 或项目根目录 config.toml
+# 详见 docs/security/policy.md
+
+[sandbox]
+# read-only | workspace-write | danger-full-access
+mode = "workspace-write"
+
+[approval]
+# on-request | untrusted | never | granular
+policy = "untrusted"
+
+[network]
+# 默认禁止外网，白名单模式
+allow = [
+  "registry.npmjs.org",
+  "registry.yarnpkg.com",
+  "pypi.org",
+  "files.pythonhosted.org",
+  "github.com",
+  "api.github.com",
+]
+
+[telemetry]
+# 可选：OpenTelemetry 导出
+# exporter = "otlp"
+# endpoint = "http://localhost:4317"
+
+[project]
+# 项目级 AGENTS.md 路径
+agents_md = "AGENTS.md"

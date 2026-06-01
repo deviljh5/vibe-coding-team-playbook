@@ -1,0 +1,43 @@
+# 构建产物
+dist/
+build/
+out/
+.next/
+.nuxt/
+coverage/
+
+# 依赖
+node_modules/
+vendor/
+.venv/
+__pycache__/
+
+# 日志与临时文件
+*.log
+tmp/
+.cache/
+
+# 大文件 / 二进制
+*.pdf
+*.zip
+*.tar.gz
+*.png
+*.jpg
+*.gif
+*.woff
+*.woff2
+
+# 敏感配置
+.env
+.env.*
+credentials.json
+*.pem
+*.key
+
+# IDE / OS
+.DS_Store
+.idea/
+*.swp
+
+# Git
+.git/

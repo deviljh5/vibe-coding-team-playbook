@@ -1,0 +1,30 @@
+---
+description: 架构边界与依赖方向约束
+globs:
+  - "**/*"
+---
+
+# 架构边界
+
+执行任务前阅读 `docs/architecture/module-boundaries.md`。
+
+## 依赖方向（只允许单向）
+
+```
+docs/ → (无依赖)
+templates/ → (无依赖)
+scripts/ → docs/ (只读引用)
+.github/ → scripts/
+```
+
+## 禁止
+
+- scripts/ 不得 import 或调用 templates/ 中的运行时逻辑
+- 文档之间不得循环引用
+- 不在 docs/ 中嵌入可执行代码
+
+## 扩展新模块时
+
+1. 在 `docs/architecture/module-boundaries.md` 注册职责
+2. 在 `scripts/check-structure.sh` 添加约束检查
+3. 更新 AGENTS.md 目录表
