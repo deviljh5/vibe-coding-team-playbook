@@ -1,0 +1,50 @@
+name: Quality Gate
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+jobs:
+  structure-check:
+    name: Structure Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run structure check
+        run: ./scripts/check-structure.sh
+
+  doc-freshness:
+    name: Doc Freshness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run doc freshness check
+        run: ./scripts/check-doc-freshness.sh
+
+  pr-size-check:
+    name: PR Size Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR size
+        run: |
+          ADDITIONS=$(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $4}')
+          DELETIONS=$(git diff --stat origin/${{ github.base_ref }}...HEAD | tail -1 | awk '{print $6}')
+          TOTAL=$(( ${ADDITIONS:-0} + ${DELETIONS:-0} ))
+          echo "PR size: $TOTAL lines (+${ADDITIONS:-0}/-${DELETIONS:-0})"
+          if [ "$TOTAL" -gt 800 ]; then
+            echo "::error::PR exceeds 800 lines ($TOTAL). Please split into smaller PRs."
+            exit 1
+          elif [ "$TOTAL" -gt 400 ]; then
+            echo "::warning::PR exceeds 400 lines ($TOTAL). Consider splitting."
+          fi
