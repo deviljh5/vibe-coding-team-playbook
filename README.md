@@ -1,58 +1,70 @@
 # Vibe Coding Team Playbook
 
-大型项目团队在 Cursor / Codex 等 AI 编码工具上的协作实施手册与可复用模板。
+大型项目团队在 Cursor / Codex 上的协作规范与模板。**一条命令安装到你的项目，无需手抄文件。**
 
-## 快速开始
+## 一键安装（推荐）
 
-1. 阅读 [AGENTS.md](./AGENTS.md) — Agent 行为边界与导航入口
-2. 复制 `.cursor/rules/` 到你的业务仓库并适配
-3. 按 [docs/onboarding/day-one-checklist.md](./docs/onboarding/day-one-checklist.md) 完成新成员上手
-4. 使用 [templates/prompts/](./templates/prompts/) 中的标准 Prompt 模板发起任务
-5. 按 [docs/sop/task-lifecycle.md](./docs/sop/task-lifecycle.md) 执行标准作业流
-6. 启用 CI：运行 `./scripts/install-github-workflows.sh`（需先 `gh auth refresh -h github.com -s workflow` 并在浏览器授权）
+在你的**业务项目根目录**执行：
 
-## 目录结构
-
-```
-.
-├── AGENTS.md                    # Agent 导航地图（约 100 行，指向深层文档）
-├── .cursor/
-│   └── rules/                   # 团队级 Cursor 规则（提交到版本控制）
-├── .cursorignore                # 大仓库索引排除配置
-├── docs/
-│   ├── architecture/            # 架构导航（Agent 友好）
-│   ├── onboarding/              # 新成员 1 天上手
-│   ├── sop/                     # 标准作业流与 PR 规范
-│   ├── quality/                 # 质量门禁与自动评审
-│   ├── security/                # 安全审批与审计
-│   └── metrics/                 # 指标看板与每周复盘
-├── templates/
-│   ├── prompts/                 # 统一 Prompt 模板
-│   ├── pr/                      # PR / Issue 模板
-│   └── codex/                   # Codex 配置示例
-├── scripts/                     # 可执行约束与巡检脚本
-└── .github/
-    └── workflows/               # CI 质量门禁示例
+```bash
+# 本地 playbook 路径安装（把路径换成你的 clone 位置）
+~/Projects/vibe-coding-team-playbook/install.sh . --with-ci --push
 ```
 
-## 五阶段落地节奏
+或从 GitHub 拉取安装：
 
-| 周次 | 目标 | 对应文档 |
-|------|------|----------|
-| 第 1 周 | 规则与模板统一、选 1 条业务线试点 | `.cursor/rules/`, `templates/prompts/` |
-| 第 2 周 | 接入自动评审和基础门禁，强制小 PR | `docs/sop/`, `.github/workflows/` |
-| 第 3 周 | 并行任务与夜间巡检上线 | `scripts/nightly-audit.sh`, `docs/quality/` |
-| 第 4 周 | 按指标收敛流程，固化为团队手册 | [docs/implementation/4-week-rollout.md](./docs/implementation/4-week-rollout.md), `docs/metrics/` |
+```bash
+curl -fsSL https://raw.githubusercontent.com/deviljh5/vibe-coding-team-playbook/master/install.sh | bash -s -- . --with-ci --push
+```
 
-## 角色分工
-
-| 角色 | 职责 |
+| 选项 | 作用 |
 |------|------|
-| AI Tech Lead | 维护规则与 Prompt 模板，定义架构边界 |
-| Feature Owner | 拆需求、定验收、控范围 |
-| Quality Owner | 维护 CI 质量门禁与自动评审 |
-| Security Owner | 审批高风险动作与审计日志 |
+| `.` | 安装到当前目录 |
+| `--with-ci` | 附带 GitHub Actions 质量门禁 |
+| `--push` | 自动 git 提交并推送 |
+| `--force` | 覆盖已有 `AGENTS.md` |
+
+**Makefile 等价命令：**
+
+```bash
+make setup TARGET=~/Projects/your-app   # 安装 + CI + 推送
+```
+
+安装后会自动带上：
+
+- `.cursor/rules/` — Cursor 团队规则
+- `AGENTS.md` — Agent 导航入口
+- `docs/` — SOP、架构、安全、指标文档
+- `templates/prompts/` — 标准 Prompt 模板
+- `scripts/validate.sh` — 本地一键验证
+- `.github/` — PR 模板与 CI（加 `--with-ci` 时）
+
+## 日常只用这三件事
+
+1. **开任务** — 复制 `templates/prompts/feature-task.md` 到 Cursor 对话
+2. **提交前** — 运行 `./scripts/validate.sh`
+3. **提 PR** — 用自动加载的 PR 模板，贴测试证据
+
+## 新成员上手
+
+运行安装命令后，读 [docs/onboarding/day-one-checklist.md](./docs/onboarding/day-one-checklist.md)（约半天）。
+
+## 4 周落地节奏
+
+详见 [docs/implementation/4-week-rollout.md](./docs/implementation/4-week-rollout.md)。
+
+## 仓库结构
+
+```
+.cursor/rules/     # 团队规则（版本化）
+AGENTS.md          # Agent 入口地图
+docs/              # SOP / 架构 / 安全 / 指标
+templates/         # Prompt / PR / CI 模板
+scripts/           # validate、bootstrap、巡检
+.github/           # PR 模板 + Actions
+install.sh         # 一键安装入口
+```
 
 ## 许可
 
-MIT — 按需复制到你的业务仓库并适配。
+MIT
